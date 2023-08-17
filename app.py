@@ -12,7 +12,7 @@ model = pickle.load(open('model.pkl', 'rb'))
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('ontheside.html')
 
 @app.route('/predict', methods=['GET', 'POST'])
 def serve_predictions():
@@ -20,20 +20,12 @@ def serve_predictions():
     length = request.form['length']
     diamond_clarity = request.form['clarity']
     diamond_color = request.form['color']
+    array = np.array([carat_size, length, diamond_clarity, diamond_color])
+    array = array.astype('float')
+    array = array.reshape(1, -1)
+    prediction = model.predict(array)
     
-    dict = {
-        'carat':carat_size,
-        'length':length,
-        'clarity':diamond_clarity,
-        'color':diamond_color
-    }
-    df = pd.DataFrame(dict)
-    pipeline = ColumnTransformer([('robust scaler', RobustScaler(), ['carat', 'length']),
-                                  ('ord_encoder', OrdinalEncoder(), ['clarity', 'color'])])
-    arr = pipeline.transform(df)
-    prediction = model.predict(arr)
-    
-    return render_template('index.html', data=int(prediction))
+    return render_template('ontheside.html', data=int(prediction))
 
 if __name__ == '__main__':
     app.run(debug=True)
