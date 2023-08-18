@@ -1,5 +1,3 @@
 *.vscode
 *.venv
 *.cfg
-**/Lib
-**/Scripts
