@@ -11,7 +11,7 @@ from sklearn.preprocessing import RobustScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 from sklearn import ensemble
-import pickle
+from joblib import pickle
 
 def build_model():
     ## read the dataset
